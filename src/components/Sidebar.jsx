@@ -39,37 +39,39 @@ const NAV_ITEMS = [
   { label: "Natural Submission", icon: "🔒" },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ collapsed }) {
   const [openItem, setOpenItem] = useState(null);
 
   const toggleItem = (label) => {
+    if (collapsed) return;
     setOpenItem((prev) => (prev === label ? null : label));
   };
 
   return (
-    <aside className="sidebar">
+    <aside className={"sidebar" + (collapsed ? " collapsed" : "")}>
       <div className="sidebar-dashboard-btn">
         <span>▦</span>
-        <span>Dashboard</span>
+        {!collapsed && <span>Dashboard</span>}
       </div>
       <ul className="sidebar-nav">
         {NAV_ITEMS.map((item) => {
-          const hasChildren = Boolean(item.children?.length);
-          const isOpen = openItem === item.label;
+          const hasChildren = Boolean(item.children && item.children.length);
+          const isOpen = !collapsed && openItem === item.label;
 
           return (
             <li key={item.label} className="sidebar-nav-item">
               <div
                 className="sidebar-nav-row"
+                title={collapsed ? item.label : undefined}
                 onClick={hasChildren ? () => toggleItem(item.label) : undefined}
                 role={hasChildren ? "button" : undefined}
                 tabIndex={hasChildren ? 0 : undefined}
               >
                 <span className="item-left">
                   <span className="sidebar-icon">{item.icon}</span>
-                  <span>{item.label}</span>
+                  {!collapsed && <span>{item.label}</span>}
                 </span>
-                {hasChildren && (
+                {hasChildren && !collapsed && (
                   <span className={`sidebar-caret ${isOpen ? "open" : ""}`}>▾</span>
                 )}
               </div>

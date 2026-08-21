@@ -9,6 +9,7 @@ export default function Dashboard() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   useEffect(() => {
     let ignore = false;
@@ -34,10 +35,13 @@ export default function Dashboard() {
 
   return (
     <div className="app-shell">
-      <Sidebar />
+      <Sidebar collapsed={sidebarCollapsed} />
 
-      <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-        <Header />
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
+        <Header
+          sidebarCollapsed={sidebarCollapsed}
+          onToggleSidebar={() => setSidebarCollapsed((prev) => !prev)}
+        />
 
         <main className="dashboard-content">
           {loading && <div className="loading-text">Loading dashboard...</div>}
