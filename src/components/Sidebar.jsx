@@ -39,7 +39,7 @@ const NAV_ITEMS = [
   { label: "Natural Submission", icon: "🔒" },
 ];
 
-export default function Sidebar({ collapsed }) {
+export default function Sidebar({ collapsed, onToggle }) {
   const [openItem, setOpenItem] = useState(null);
 
   const toggleItem = (label) => {
@@ -50,8 +50,21 @@ export default function Sidebar({ collapsed }) {
   return (
     <aside className={"sidebar" + (collapsed ? " collapsed" : "")}>
       <div className="sidebar-dashboard-btn">
-        <span>▦</span>
-        {!collapsed && <span>Dashboard</span>}
+        <span className="sidebar-dashboard-btn-left">
+          <span>▦</span>
+          {!collapsed && <span>Dashboard</span>}
+        </span>
+        {!collapsed && (
+          <span
+            className="sidebar-collapse-toggle"
+            onClick={onToggle}
+            role="button"
+            tabIndex={0}
+            title="Collapse sidebar"
+          >
+            «
+          </span>
+        )}
       </div>
       <ul className="sidebar-nav">
         {NAV_ITEMS.map((item) => {

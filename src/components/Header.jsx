@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 
-export default function Header({ onToggleSidebar }) {
+export default function Header({ sidebarCollapsed, onToggleSidebar }) {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -18,15 +18,17 @@ export default function Header({ onToggleSidebar }) {
     <header className="topbar">
       <div className="topbar-left">
         <div className="topbar-logo">MB</div>
-        <span
-          className="topbar-menu-icon"
-          onClick={onToggleSidebar}
-          role="button"
-          tabIndex={0}
-          title="Toggle sidebar"
-        >
-          ☰
-        </span>
+        {sidebarCollapsed && (
+          <span
+            className="topbar-menu-icon"
+            onClick={onToggleSidebar}
+            role="button"
+            tabIndex={0}
+            title="Expand sidebar"
+          >
+            ☰
+          </span>
+        )}
       </div>
 
       <div className="topbar-right">
